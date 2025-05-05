@@ -1,4 +1,4 @@
-name: Run Jest Tests
+name: CI
 
 on:
   push:
@@ -7,24 +7,32 @@ on:
 
 jobs:
   test:
+    name: Run Unit Tests for Vehicle Service
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Start gRPC server in background
-        run: |
-          npm run start &
-          sleep 5  
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: 7.0.6
 
-      - name: Run tests
+      - name: Start gRPC Server
+        run: |
+          npm run start > grpc.log 2>&1 &
+          sleep 10
+          echo "gRPC log:"
+          cat grpc.log
+
+      - name: Run Tests
         run: npm test
