@@ -3,6 +3,7 @@ const protoLoader = require('@grpc/proto-loader');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const path = require('path');
+const logger = require('./logger');
 const vehicleService = require('./services/vehicleService');
 
 const PROTO_PATH = path.join(__dirname, 'proto', 'vehicle.proto');
@@ -26,6 +27,6 @@ server.addService(vehicleProto.VehicleService.service, vehicleService);
 
 const PORT = '0.0.0.0:50051';
 server.bindAsync(PORT, grpc.ServerCredentials.createInsecure(), () => {
-  console.log(`🚀 gRPC server is running on ${PORT}`);
+  logger.info(`gRPC server is running on ${PORT}`);
   server.start();
 });
