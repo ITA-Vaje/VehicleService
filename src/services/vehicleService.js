@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const Vehicle = require('../models/Vehicle');
 
 const vehicleService = {
@@ -8,7 +9,9 @@ const vehicleService = {
     try {
       await newVehicle.save();
       callback(null, { id: newVehicle._id.toString() });
+      logger.info('AddVehicle executed.');
     } catch (error) {
+      logger.error('Error occurred:', error);
       callback(error);
     }
   },
@@ -24,7 +27,9 @@ const vehicleService = {
         year: vehicle.year,
         available: vehicle.available
       });
+      logger.info('GetVehicle executed.');
     } catch (err) {
+      logger.error('Error occurred:', err);
       callback(err);
     }
   },
@@ -41,7 +46,9 @@ const vehicleService = {
           available: v.available
         }))
       });
+      logger.info('ListVehicles executed.');
     } catch (err) {
+      logger.error('Error occurred:', err);
       callback(err);
     }
   },
@@ -50,7 +57,9 @@ const vehicleService = {
     try {
       await Vehicle.findByIdAndDelete(call.request.id);
       callback(null, {});
+      logger.info('DeleteVehicle executed.');
     } catch (err) {
+      logger.error('Error occurred:', err);
       callback(err);
     }
   }
