@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package vehicle;
+
+import "google/protobuf/empty.proto";
+
+message Vehicle {
+  string id = 1;
+  string make = 2;
+  string model = 3;
+  int32 year = 4;
+  bool available = 5;
+}
+
+message VehicleId {
+  string id = 1;
+}
+
+message VehicleList {
+  repeated Vehicle vehicles = 1;
+}
+
+service VehicleService {
+  rpc AddVehicle(Vehicle) returns (VehicleId);
+  rpc GetVehicle(VehicleId) returns (Vehicle);
+  rpc ListVehicles(google.protobuf.Empty) returns (VehicleList);
+  rpc DeleteVehicle(VehicleId) returns (google.protobuf.Empty);
+}
