@@ -33,6 +33,8 @@ jobs:
           sleep 10
           echo "gRPC log:"
           cat grpc.log
+        env:
+          MONGO_URI: mongodb+srv://pts-user:pts-user@clusterpts.ihmpmb6.mongodb.net/VehicleDB?retryWrites=true&w=majority
 
       - name: Run Tests
         run: npm test
